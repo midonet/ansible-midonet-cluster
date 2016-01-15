@@ -1,0 +1,4 @@
+---
+
+- name: Restart midonet cluster
+  service: name=midonet-cluster state=restarted

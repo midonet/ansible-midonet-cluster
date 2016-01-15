@@ -1,0 +1,11 @@
+---
+
+midonet_metadata: True
+metadata_host: '{{ ansible_default_ipv4 }}'
+metadata_secret: "midonet"
+cassandra_cluster: "midonet"
+keystone_project: admin
+keystone_port: 35357
+keystone_username: admin
+keystone_host: localhost
+loglevel: debug

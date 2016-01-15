@@ -1,0 +1,15 @@
+---
+
+- hosts: localhost
+  remote_user: root
+  roles:
+    - role: abelboldu.midonet-repos
+      midonet_version: current
+    - role: abelboldu.zookeeper
+      zookeeper_hosts: '{{ groups["all"] }}'
+    - role: abelboldu.cassandra
+      cassandra_hosts: '{{ groups["all"] }}'
+    - role: ansible-midonet-cluster
+      zookeeper_hosts: '{{ groups["all"] }}'
+      cassandra_hosts: '{{ groups["all"] }}'
+      

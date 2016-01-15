@@ -1,0 +1,27 @@
+{% if zk_iface is not defined %}
+zookeeper.zookeeper_hosts="{% for host in zookeeper_hosts %}{{ hostvars[host]['ansible_default_ipv4']['address'] }}:2181{% if not loop.last %},{% endif %}{% endfor %}"
+{% else %}
+zookeeper.zookeeper_hosts="{% for host in zookeeper_hosts %}{{ hostvars[host][zk_iface]['ipv4']['address'] }}:2181{% if not loop.last %},{% endif %}{% endfor %}"
+{% endif %}
+zookeeper.use_new_stack=true
+{% if cs_iface is not defined %}
+cassandra.servers="{% for host in cassandra_hosts %}{{ hostvars[host]['ansible_default_ipv4']['address'] }}:2181{% if not loop.last %},{% endif %}{% endfor %}"
+{% else %}
+cassandra.servers="{% for host in cassandra_hosts %}{{ hostvars[host][cs_iface]['ipv4']['address'] }}:2181{% if not loop.last %},{% endif %}{% endfor %}"
+{% endif %}
+cassandra.replication_factor="{% if cassandra_hosts|length < 3 %}1{% else %}3{% endif %}"
+cassandra.cluster="{{ cassandra_cluster }}"
+agent.midolman.bgp_keepalive=1s
+agent.midolman.bgp_holdtime=3s
+agent.midolman.bgp_connect_retry=1s
+agent.midolman.lock_memory=false
+agent.loggers.root=DEBUG
+agent.haproxy_health_monitor.namespace_cleanup=true
+agent.haproxy_health_monitor.health_monitor_enable=true
+agent.haproxy_health_monitor.haproxy_file_loc=/etc/midolman/l4lb/
+cluster.auth.provider_class="org.midonet.cluster.auth.keystone.v2_0.KeystoneService"
+cluster.auth.admin_role="{{ keystone_username }}"
+cluster.auth.keystone.tenant_name="{{ keystone_project }}"
+cluster.auth.keystone.admin_token="{{ keystone_token }}"
+cluster.auth.keystone.host="{{ keystone_hostname }}"
+cluster.auth.keystone.port="{{ keystone_port }}"

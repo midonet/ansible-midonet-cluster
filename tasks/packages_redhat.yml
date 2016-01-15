@@ -1,0 +1,4 @@
+---
+
+- name: Install Midonet Cluster
+  yum: name=midonet-cluster state=present
