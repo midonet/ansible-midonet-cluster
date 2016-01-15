@@ -12,4 +12,4 @@
     - role: ansible-midonet-cluster
       zookeeper_hosts: '{{ groups["all"] }}'
       cassandra_hosts: '{{ groups["all"] }}'
-      
+      keystone_token: somefnordity
