@@ -9,7 +9,7 @@ cassandra.servers="{% for host in cassandra_hosts %}{{ hostvars[host]['ansible_d
 {% else %}
 cassandra.servers="{% for host in cassandra_hosts %}{{ hostvars[host][cs_iface]['ipv4']['address'] }}:2181{% if not loop.last %},{% endif %}{% endfor %}"
 {% endif %}
-cassandra.replication_factor="{% if cassandra_hosts|length < 3 %}1{% else %}3{% endif %}"
+cassandra.replication_factor={% if cassandra_hosts|length < 3 %}1{% else %}3{% endif %}
 cassandra.cluster="{{ cassandra_cluster }}"
 agent.midolman.bgp_keepalive=1s
 agent.midolman.bgp_holdtime=3s
