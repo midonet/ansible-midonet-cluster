@@ -3,6 +3,9 @@
 - hosts: localhost
   remote_user: root
   roles:
+    - role: geerlingguy.java
+      java_packages:
+        - openjdk-8-jdk
     - role: abelboldu.midonet-repos
       midonet_version: current
     - role: abelboldu.zookeeper

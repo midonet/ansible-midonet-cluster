@@ -9,3 +9,4 @@ keystone_port: 35357
 keystone_username: admin
 keystone_host: localhost
 loglevel: debug
+cluster_mem: False
