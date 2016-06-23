@@ -30,3 +30,4 @@
       zookeeper_hosts: '{{ groups["controller"] }}'
       cassandra_hosts: '{{ groups["controller"] }}'
       keystone_token: somefnordity
+      max_heap_size: "512M"

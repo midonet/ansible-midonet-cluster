@@ -34,5 +34,12 @@
   retries: 5
   delay: 10
 
+- name: Configure MAX_HEAP_SIZE for JVM
+  lineinfile:
+    dest: /etc/midonet-cluster/midonet-cluster-env.sh
+    regexp: ^MAX_HEAP_SIZE=
+    line: MAX_HEAP_SIZE="{{ max_heap_size }}"
+    state: present
+
 - name: Ensure midonet-cluster is restarted
   service: name=midonet-cluster state=restarted
