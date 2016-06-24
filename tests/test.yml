@@ -32,12 +32,10 @@
       keystone_token: somefnordity
       max_heap_size: "512M"
   post_tasks:
-    - name: Check java process is running
-      shell: ps auxf | grep java
-      register: command_result_java
-      failed_when: "'java' not in command_result_java.stdout"
-
-    - name: Check midonet cluster process is running
-      shell: ps auxf | grep midonet-cluster
-      register: command_result_cluster
-      failed_when: "'midonet-cluster' not in command_result_cluster.stdout"
+    - name: Check java and midonet-cluster processes are running
+      shell: ps auxf | grep {{ item }}
+      register: command_result
+      failed_when: "'{{ item }}' not in command_result.stdout"
+      with_items:
+        - java
+        - midonet-cluster
