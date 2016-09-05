@@ -1,8 +1,7 @@
 ---
 
 - name: Install Midonet Cluster
-  apt: name=midonet-cluster state=present update_cache=yes
-
-- name: Install Midonet Cluster MEM
-  apt: name=midonet-cluster-mem state=present
-  when: cluster_mem
+  apt:
+    name: midonet-cluster
+    state: present
+    update_cache: yes

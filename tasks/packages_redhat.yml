@@ -1,8 +1,6 @@
 ---
 
 - name: Install Midonet Cluster
-  yum: name=midonet-cluster state=present
-
-- name: Install Midonet Cluster MEM
-  yum: name=midonet-cluster-mem state=present
-  when: cluster_mem
+  yum:
+    name: midonet-cluster
+    state: present
