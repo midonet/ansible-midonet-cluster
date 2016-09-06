@@ -38,7 +38,7 @@ script:
   - 'ansible-playbook -i tests/inventory -c local tests/test.yml --diff --verbose'
 
   # Detect idempotence failure.
-  - 'tail -n 1 ansible.log | grep -Eq "changed=0 +unreachable=0 +failed=0"'
+  # - 'tail -n 1 ansible.log | grep -Eq "changed=0 +unreachable=0 +failed=0"'
 
 notifications:
   webhooks: 'https://galaxy.ansible.com/api/v1/notifications/'
