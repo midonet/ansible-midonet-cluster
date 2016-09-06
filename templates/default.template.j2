@@ -9,7 +9,8 @@ cassandra.servers="{% for host in cassandra_hosts %}{{ hostvars[host]['ansible_d
 {% else %}
 cassandra.servers="{% for host in cassandra_hosts %}{{ hostvars[host][cs_iface]['ipv4']['address'] }}:2181{% if not loop.last %},{% endif %}{% endfor %}"
 {% endif %}
-cassandra.replication_factor="{% if cassandra_hosts|length < 3 %}1{% else %}3{% endif %}"
+cassandra.replication_factor={% if cassandra_hosts|length < 3 %}1{% else %}3{% endif %}
+
 cassandra.cluster="{{ midonet_cluster_cassandra_cluster }}"
 agent.midolman.bgp_keepalive=1s
 agent.midolman.bgp_holdtime=3s
@@ -22,7 +23,7 @@ agent.haproxy_health_monitor.haproxy_file_loc=/etc/midolman/l4lb/
 cluster.auth.provider_class="{{ midonet_cluster_keystone_provider_class }}"
 cluster.auth.keystone.tenant_name="{{ midonet_cluster_keystone_project }}"
 cluster.auth.keystone.host="{{ midonet_cluster_keystone_host }}"
-cluster.auth.keystone.port="{{ midonet_cluster_keystone_port }}"
+cluster.auth.keystone.port={{ midonet_cluster_keystone_port }}
 cluster.auth.keystone.version={{ midonet_cluster_keystone_version }}
 cluster.auth.keystone.user_name="{{ midonet_cluster_keystone_username }}"
 cluster.auth.keystone.user_password="{{ midonet_cluster_keystone_password }}"

@@ -16,7 +16,7 @@
 - name: Set loglevel in midonet-cluster.conf
   replace:
     dest: '/etc/midonet-cluster/logback.xml'
-    regexp:  '    <root level=".*">'
+    regexp: '    <root level=".*">'
     replace: '    <root level="DEBUG">'
   when: midonet_cluster_loglevel == 'debug'
 
