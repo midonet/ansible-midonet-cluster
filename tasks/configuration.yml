@@ -50,7 +50,7 @@
   lineinfile:
     dest: '/etc/midonet-cluster/midonet-cluster-env.sh'
     regexp: '^MAX_HEAP_SIZE='
-    line: 'MAX_HEAP_SIZE="{{ max_heap_size }}"'
+    line: 'MAX_HEAP_SIZE="{{ midonet_cluster_max_heap_size }}"'
     state: present
 
 - name: Ensure midonet-cluster is restarted
