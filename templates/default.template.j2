@@ -11,7 +11,7 @@ cassandra.servers="{% for host in cassandra_hosts %}{{ hostvars[host][cs_iface][
 {% endif %}
 cassandra.replication_factor={% if cassandra_hosts|length < 3 %}1{% else %}3{% endif %}
 
-cassandra.cluster="{{ cassandra_cluster }}"
+cassandra.cluster="{{ midonet_cluster_cassandra_cluster }}"
 agent.midolman.bgp_keepalive=1s
 agent.midolman.bgp_holdtime=3s
 agent.midolman.bgp_connect_retry=1s
@@ -20,9 +20,11 @@ agent.loggers.root=DEBUG
 agent.haproxy_health_monitor.namespace_cleanup=true
 agent.haproxy_health_monitor.health_monitor_enable=true
 agent.haproxy_health_monitor.haproxy_file_loc=/etc/midolman/l4lb/
-cluster.auth.provider_class="org.midonet.cluster.auth.keystone.v2_0.KeystoneService"
-cluster.auth.admin_role="{{ keystone_username }}"
-cluster.auth.keystone.tenant_name="{{ keystone_project }}"
-cluster.auth.keystone.admin_token="{{ keystone_token }}"
-cluster.auth.keystone.host="{{ keystone_host }}"
-cluster.auth.keystone.port={{ keystone_port }}
+cluster.auth.provider_class="{{ midonet_cluster_keystone_provider_class }}"
+cluster.auth.keystone.tenant_name="{{ midonet_cluster_keystone_project }}"
+cluster.auth.keystone.host="{{ midonet_cluster_keystone_host }}"
+cluster.auth.keystone.port={{ midonet_cluster_keystone_port }}
+cluster.auth.keystone.version={{ midonet_cluster_keystone_version }}
+cluster.auth.keystone.user_name="{{ midonet_cluster_keystone_username }}"
+cluster.auth.keystone.user_password="{{ midonet_cluster_keystone_password }}"
+cluster.auth.keystone.domain_name="{{ midonet_cluster_keystone_domain_name }}"

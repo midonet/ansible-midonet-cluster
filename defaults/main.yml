@@ -1,13 +1,17 @@
 ---
 
-midonet_metadata: True
-metadata_host: '{{ ansible_default_ipv4 }}'
-metadata_secret: "midonet"
-cassandra_cluster: "midonet"
-keystone_project: admin
-keystone_port: 35357
-keystone_username: admin
-keystone_host: localhost
-loglevel: debug
-cluster_mem: False
-max_heap_size: "2048M"
+midonet_cluster_enable_metadata: True
+midonet_cluster_metadata_host: '{{ ansible_default_ipv4 }}'
+midonet_cluster_metadata_secret: 'midonet'
+midonet_cluster_cassandra_cluster: 'midonet'
+midonet_cluster_keystone_project: 'admin'
+midonet_cluster_keystone_port: 35357
+midonet_cluster_keystone_username: 'admin'
+midonet_cluster_keystone_password: 'keystone_password'
+midonet_cluster_keystone_domain_name: 'default'
+midonet_cluster_keystone_host: 'localhost'
+midonet_cluster_keystone_provider_class: 'org.midonet.cluster.auth.keystone.KeystoneService'
+midonet_cluster_keystone_version: 3
+midonet_cluster_loglevel: 'debug'
+midonet_cluster_cluster_mem: False
+midonet_cluster_max_heap_size: '2048M'

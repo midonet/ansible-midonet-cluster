@@ -1,23 +1,31 @@
 ---
 
-- fail: msg="Bailing out. this play requires 'zookeeper_hosts'"
+- fail:
+    msg: 'Bailing out. This play requires "zookeeper_hosts"'
   when: zookeeper_hosts is not defined
 
-- fail: msg="Bailing out. this play requires 'cassandra_hosts'"
+- fail:
+    msg: 'Bailing out. This play requires "cassandra_hosts"'
   when: cassandra_hosts is not defined
 
 - name: Configure midonet cluster config file
-  template: src=midonet.conf.j2 dest=/etc/midonet/midonet.conf
+  template:
+    src: 'midonet.conf.j2'
+    dest: '/etc/midonet/midonet.conf'
 
-- name: Set loglevel to debug in midonet-cluster.conf (if loglevel==debug)
+- name: Set loglevel in midonet-cluster.conf
   replace:
     dest: '/etc/midonet-cluster/logback.xml'
-    regexp:  '    <root level=".*">'
+    regexp: '    <root level=".*">'
     replace: '    <root level="DEBUG">'
-  when: loglevel == 'debug'
+  when: midonet_cluster_loglevel == 'debug'
 
 - name: mn-conf default template
-  template: src=default.template.j2 dest=/etc/midonet/default.template owner=root group=root
+  template:
+    src: 'default.template.j2'
+    dest: '/etc/midonet/default.template'
+    owner: 'root'
+    group: 'root'
 
 - name: Apply default mn-conf template (for all nodes)
   shell: cat /etc/midonet/default.template | mn-conf set -t default
@@ -25,21 +33,27 @@
   delay: 10
 
 - name: mn-conf metadata template
-  template: src=metadata.template.j2 dest=/etc/midonet/metadata.template owner=root group=root
-  when: midonet_metadata is defined and midonet_metadata|bool
+  template:
+    src: 'metadata.template.j2'
+    dest: '/etc/midonet/metadata.template'
+    owner: 'root'
+    group: 'root'
+  when: midonet_cluster_enable_metadata is defined and midonet_cluster_enable_metadata|bool
 
 - name: Apply metadata mn-conf template
   shell: cat /etc/midonet/metadata.template | mn-conf set -t default
-  when: midonet_metadata is defined and midonet_metadata|bool
+  when: midonet_cluster_enable_metadata is defined and midonet_cluster_enable_metadata|bool
   retries: 5
   delay: 10
 
 - name: Configure MAX_HEAP_SIZE for JVM
   lineinfile:
-    dest: /etc/midonet-cluster/midonet-cluster-env.sh
-    regexp: ^MAX_HEAP_SIZE=
-    line: MAX_HEAP_SIZE="{{ max_heap_size }}"
+    dest: '/etc/midonet-cluster/midonet-cluster-env.sh'
+    regexp: '^MAX_HEAP_SIZE='
+    line: 'MAX_HEAP_SIZE="{{ midonet_cluster_max_heap_size }}"'
     state: present
 
 - name: Ensure midonet-cluster is restarted
-  service: name=midonet-cluster state=restarted
+  service:
+    name: midonet-cluster
+    state: restarted

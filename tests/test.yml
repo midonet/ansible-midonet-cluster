@@ -1,6 +1,6 @@
 ---
 
-- hosts: controller
+- hosts: cluster
   remote_user: root
   become: True
   tasks:
@@ -8,7 +8,7 @@
       apt_repository: repo='ppa:openjdk-r/ppa'
       when: "ansible_distribution_release == 'trusty'"
 
-- hosts: controller
+- hosts: cluster
   remote_user: root
   become: True
   roles:
@@ -23,14 +23,13 @@
     - role: abelboldu.midonet-repos
       midonet_version: current
     - role: abelboldu.zookeeper
-      zookeeper_hosts: '{{ groups["controller"] }}'
+      zookeeper_hosts: '{{ groups["cluster"] }}'
     - role: abelboldu.cassandra
-      cassandra_hosts: '{{ groups["controller"] }}'
+      cassandra_hosts: '{{ groups["cluster"] }}'
     - role: ansible-midonet-cluster
-      zookeeper_hosts: '{{ groups["controller"] }}'
-      cassandra_hosts: '{{ groups["controller"] }}'
-      keystone_token: somefnordity
-      max_heap_size: "512M"
+      zookeeper_hosts: '{{ groups["cluster"] }}'
+      cassandra_hosts: '{{ groups["cluster"] }}'
+      midonet_cluster_max_heap_size: "512M"
   post_tasks:
     - name: Check java and midonet-cluster processes are running
       shell: ps auxf | grep {{ item }}
