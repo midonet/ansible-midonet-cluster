@@ -21,6 +21,7 @@ agent.haproxy_health_monitor.namespace_cleanup=true
 agent.haproxy_health_monitor.health_monitor_enable=true
 agent.haproxy_health_monitor.haproxy_file_loc=/etc/midolman/l4lb/
 cluster.auth.provider_class="{{ midonet_cluster_keystone_provider_class }}"
+cluster.auth.admin_role="{{ midonet_cluster_keystone_admin_role }}"
 cluster.auth.keystone.tenant_name="{{ midonet_cluster_keystone_project }}"
 cluster.auth.keystone.host="{{ midonet_cluster_keystone_host }}"
 cluster.auth.keystone.port={{ midonet_cluster_keystone_port }}
