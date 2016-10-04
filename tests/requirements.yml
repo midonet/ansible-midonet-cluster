@@ -3,3 +3,7 @@
 - src: abelboldu.midonet-repos
 - src: abelboldu.zookeeper
 - src: abelboldu.cassandra
+
+- src: midonet.ansible-midonet-repos
+- src: midonet.ansible-zookeeper
+- src: midonet.ansible-cassandra
