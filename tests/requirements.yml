@@ -1,5 +1,4 @@
 ---
-- src: geerlingguy.java
-- src: abelboldu.midonet-repos
-- src: abelboldu.zookeeper
-- src: abelboldu.cassandra
+- src: 'https://github.com/midonet/ansible-midonet-repo'
+- src: 'https://github.com/midonet/ansible-zookeeper'
+- src: 'https://github.com/midonet/ansible-cassandra'
