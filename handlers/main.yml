@@ -2,5 +2,5 @@
 
 - name: Restart midonet cluster
   service:
-    name: midonet-cluster
+    name: 'midonet-cluster'
     state: restarted
