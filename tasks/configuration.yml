@@ -57,3 +57,7 @@
   service:
     name: midonet-cluster
     state: restarted
+
+- name: Wait for cluster to start
+  pause:
+    seconds: 30
