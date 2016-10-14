@@ -29,6 +29,7 @@
 
 - name: Apply default mn-conf template (for all nodes)
   shell: cat /etc/midonet/default.template | mn-conf set -t default
+  changed_when: False
   retries: 5
   delay: 10
 
@@ -42,6 +43,7 @@
 
 - name: Apply metadata mn-conf template
   shell: cat /etc/midonet/metadata.template | mn-conf set -t default
+  changed_when: False
   when: midonet_cluster_enable_metadata is defined and midonet_cluster_enable_metadata|bool
   retries: 5
   delay: 10
@@ -52,8 +54,10 @@
     regexp: '^MAX_HEAP_SIZE='
     line: 'MAX_HEAP_SIZE="{{ midonet_cluster_max_heap_size }}"'
     state: present
+  register: midonet_cluster_env_sh
 
 - name: Ensure midonet-cluster is restarted
   service:
     name: midonet-cluster
     state: restarted
+  when: midonet_cluster_env_sh|changed

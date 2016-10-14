@@ -1,23 +1,26 @@
 ---
 
-- hosts: cluster
-  remote_user: root
+- hosts: all
   become: True
 
-- hosts: cluster
-  remote_user: root
-  become: True
   roles:
-    - role: ansible-midonet-repo
-      midonet_version: 5.2
-    - role: ansible-zookeeper
-      zookeeper_hosts: '{{ groups["cluster"] }}'
-    - role: ansible-cassandra
-      cassandra_hosts: '{{ groups["cluster"] }}'
+    - role: midonet-repo
+
+    - role: zookeeper
+      zookeeper_hosts:
+        - '{{ inventory_hostname }}'
+
+    - role: cassandra
+      cassandra_hosts:
+        - '{{ inventory_hostname }}'
+
     - role: ansible-midonet-cluster
-      zookeeper_hosts: '{{ groups["cluster"] }}'
-      cassandra_hosts: '{{ groups["cluster"] }}'
+      zookeeper_hosts:
+        - '{{ inventory_hostname }}'
+      cassandra_hosts:
+        - '{{ inventory_hostname }}'
       midonet_cluster_max_heap_size: "512M"
+
   post_tasks:
     - name: Check java and midonet-cluster processes are running
       shell: ps auxf | grep {{ item }}
