@@ -1,0 +1,6 @@
+---
+
+- name: Make sure MidoNet API is accessible
+  wait_for:
+    port: 8181
+    state: started

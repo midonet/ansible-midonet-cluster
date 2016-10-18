@@ -2,6 +2,5 @@
 
 - name: Install Midonet Cluster
   apt:
-    name: midonet-cluster
+    name: 'midonet-cluster'
     state: present
-    update_cache: yes

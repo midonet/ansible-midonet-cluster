@@ -12,12 +12,14 @@
   template:
     src: 'midonet.conf.j2'
     dest: '/etc/midonet/midonet.conf'
+  notify: Restart midonet cluster
 
 - name: Set loglevel in midonet-cluster.conf
   replace:
     dest: '/etc/midonet-cluster/logback.xml'
     regexp: '    <root level=".*">'
     replace: '    <root level="DEBUG">'
+  notify: Restart midonet cluster
   when: midonet_cluster_loglevel == 'debug'
 
 - name: mn-conf default template
@@ -28,23 +30,29 @@
     group: 'root'
 
 - name: Apply default mn-conf template (for all nodes)
-  shell: cat /etc/midonet/default.template | mn-conf set -t default
-  retries: 5
+  shell: 'cat /etc/midonet/default.template | mn-conf set -t default'
+  changed_when: False
   delay: 10
-
-- name: mn-conf metadata template
-  template:
-    src: 'metadata.template.j2'
-    dest: '/etc/midonet/metadata.template'
-    owner: 'root'
-    group: 'root'
-  when: midonet_cluster_enable_metadata is defined and midonet_cluster_enable_metadata|bool
-
-- name: Apply metadata mn-conf template
-  shell: cat /etc/midonet/metadata.template | mn-conf set -t default
-  when: midonet_cluster_enable_metadata is defined and midonet_cluster_enable_metadata|bool
+  register: midonet_cluster_mn_conf_set_default_template
   retries: 5
-  delay: 10
+  until: midonet_cluster_mn_conf_set_default_template|success
+
+- block:
+    - name: mn-conf metadata template
+      template:
+        src: 'metadata.template.j2'
+        dest: '/etc/midonet/metadata.template'
+        owner: 'root'
+        group: 'root'
+
+    - name: Apply metadata mn-conf template
+      shell: 'cat /etc/midonet/metadata.template | mn-conf set -t default'
+      changed_when: False
+      delay: 10
+      register: midonet_cluster_mn_conf_set_metadata_template
+      retries: 5
+      until: midonet_cluster_mn_conf_set_metadata_template|success
+  when: midonet_cluster_enable_metadata|default(False)|bool
 
 - name: Configure MAX_HEAP_SIZE for JVM
   lineinfile:
@@ -52,8 +60,4 @@
     regexp: '^MAX_HEAP_SIZE='
     line: 'MAX_HEAP_SIZE="{{ midonet_cluster_max_heap_size }}"'
     state: present
-
-- name: Ensure midonet-cluster is restarted
-  service:
-    name: midonet-cluster
-    state: restarted
+  notify: Restart midonet cluster

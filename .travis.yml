@@ -29,16 +29,16 @@ script:
   - 'yamllint -c .yamllint.conf .'
 
   # Check syntax of role.
-  - 'ansible-playbook -i tests/inventory -c local tests/test.yml --syntax-check'
+  - 'ansible-playbook -i localhost, -c local tests/test.yml --syntax-check'
 
   # Run role.
-  - 'ansible-playbook -i tests/inventory -c local tests/test.yml --diff --verbose'
+  - 'ansible-playbook -i localhost, -c local tests/test.yml --diff --verbose'
 
   # Run role again to check idempotence failure.
-  - 'ansible-playbook -i tests/inventory -c local tests/test.yml --diff --verbose'
+  - 'ansible-playbook -i localhost, -c local tests/test.yml --diff --verbose'
 
   # Detect idempotence failure.
-  # - 'tail -n 1 ansible.log | grep -Eq "changed=0 +unreachable=0 +failed=0"'
+  - 'tail -n 5 ansible.log | grep -Eq "changed=0 +unreachable=0 +failed=0"'
 
 notifications:
   webhooks: 'https://galaxy.ansible.com/api/v1/notifications/'

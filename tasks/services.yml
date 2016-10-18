@@ -1,0 +1,7 @@
+---
+
+- name: Start and enable midonet-cluster
+  service:
+    enabled: True
+    name: 'midonet-cluster'
+    state: started
