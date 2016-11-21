@@ -1,0 +1,3 @@
+mem_cluster.flow_tracing.enabled : {{ midonet_cluster_flow_tracing_enabled|ternary('true','false') }}
+mem_cluster.flow_tracing.service.ws_port : {{ midonet_cluster_flow_tracing_service_ws_port }}
+mem_cluster.flow_tracing.auth.ssl.enabled : {{ midonet_cluster_flow_tracing_auth_ssl_enabled|ternary('true','false') }}

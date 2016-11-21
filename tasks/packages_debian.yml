@@ -4,3 +4,9 @@
   apt:
     name: 'midonet-cluster'
     state: present
+
+- name: Install Midonet Cluster MEM
+  apt:
+    name: 'midonet-cluster-mem'
+    state: present
+  when: midonet_cluster_mem_enabled
