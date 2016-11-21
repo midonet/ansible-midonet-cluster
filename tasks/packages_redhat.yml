@@ -4,3 +4,9 @@
   yum:
     name: 'midonet-cluster'
     state: present
+
+- name: Install Midonet Cluster MEM
+  yum:
+    name: 'midonet-cluster-mem'
+    state: present
+  when: midonet_cluster_mem_enabled

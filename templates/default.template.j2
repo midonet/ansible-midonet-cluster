@@ -5,9 +5,9 @@ zookeeper.zookeeper_hosts="{% for host in zookeeper_hosts %}{{ hostvars[host][zk
 {% endif %}
 zookeeper.use_new_stack=true
 {% if cs_iface is not defined %}
-cassandra.servers="{% for host in cassandra_hosts %}{{ hostvars[host]['ansible_default_ipv4']['address'] }}:2181{% if not loop.last %},{% endif %}{% endfor %}"
+cassandra.servers="{% for host in cassandra_hosts %}{{ hostvars[host]['ansible_default_ipv4']['address'] }}{% if not loop.last %},{% endif %}{% endfor %}"
 {% else %}
-cassandra.servers="{% for host in cassandra_hosts %}{{ hostvars[host][cs_iface]['ipv4']['address'] }}:2181{% if not loop.last %},{% endif %}{% endfor %}"
+cassandra.servers="{% for host in cassandra_hosts %}{{ hostvars[host][cs_iface]['ipv4']['address'] }}{% if not loop.last %},{% endif %}{% endfor %}"
 {% endif %}
 cassandra.replication_factor={% if cassandra_hosts|length < 3 %}1{% else %}3{% endif %}
 

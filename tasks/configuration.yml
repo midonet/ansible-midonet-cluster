@@ -54,10 +54,36 @@
       until: midonet_cluster_mn_conf_set_metadata_template|success
   when: midonet_cluster_enable_metadata|default(False)|bool
 
+- block:
+    - name: mn-conf mem-cluster template
+      template:
+        dest: '/etc/midonet/mem-cluster.template'
+        group: 'root'
+        mode: 0644
+        owner: 'root'
+        src: 'mem-cluster.template.j2'
+
+    - name: Apply mem-cluster mn-conf template
+      shell: 'cat /etc/midonet/mem-cluster.template | mn-conf set -t default'
+      changed_when: False
+      delay: 10
+      register: midonet_cluster_mn_conf_set_mem_cluster_template
+      retries: 5
+      until: midonet_cluster_mn_conf_set_mem_cluster_template|success
+  when: midonet_cluster_mem_enabled
+
 - name: Configure MAX_HEAP_SIZE for JVM
   lineinfile:
     dest: '/etc/midonet-cluster/midonet-cluster-env.sh'
     regexp: '^MAX_HEAP_SIZE='
     line: 'MAX_HEAP_SIZE="{{ midonet_cluster_max_heap_size }}"'
+    state: present
+  notify: Restart midonet cluster
+
+- name: Configure HEAP_NEWSIZE for JVM
+  lineinfile:
+    dest: '/etc/midonet-cluster/midonet-cluster-env.sh'
+    regexp: '^HEAP_NEWSIZE='
+    line: 'HEAP_NEWSIZE="{{ midonet_cluster_heap_newsize }}"'
     state: present
   notify: Restart midonet cluster
